@@ -1,0 +1,6 @@
+name = homer
+package = opendata
+description = Compare data info.
+core = 7.x
+php = 5
+configure = admin/homer
