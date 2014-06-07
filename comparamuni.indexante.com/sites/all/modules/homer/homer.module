@@ -44,8 +44,8 @@ function homer_block_view($delta = '') {
       $block['content'] = homer_row1();
       break;
     case 'hpublicidad2':
-      $block['subject'] = t('Gastos por año y proveedor');
-      $block['content'] = homer_prov();
+      $block['subject'] = t('Gastos por proveedores');
+      $block['content'] = homer_row2();
       break;
   }
   return $block;
@@ -159,6 +159,32 @@ function homer_row1(){
   $html.= '</div>';
   $html.= '<div class="col-md-6">';
   $html.= drupal_render($c4);
+  $html.= '</div>';
+
+  $html.= '</div>';
+
+  return $html;
+}
+
+function homer_row2(){
+  $c5 = homer_chart1(
+  array(0, 0, 0, 0, 688010, 1385214, 597580, 229052),
+    'Gastos de proveedores por años sucesivos'
+  );
+
+  $c6 = homer_chart2(
+    array(0,0,0,0),
+    array(688010, 1385214, 597580, 229052),
+    'Gastos de proveedores por año de gestión Castañeda vs Villarán'
+  );
+
+  $html = '<div class="row">';
+
+  $html.= '<div class="col-md-6">';
+  $html.= drupal_render($c5);
+  $html.= '</div>';
+  $html.= '<div class="col-md-6">';
+  $html.= drupal_render($c6);
   $html.= '</div>';
 
   $html.= '</div>';
