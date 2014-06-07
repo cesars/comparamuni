@@ -112,11 +112,7 @@ function homer_chart2($arr1, $arr2, $title){
 
 function homer_row(){
 
-  $html = '<div class="jumbotron">
-  <h1>Hello, world!</h1>
-  <p>Es lo que hay</p>
-  <p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p>
-</div>';
+  $html = '';
 
   $c1 = homer_chart1(
     array(0, 0, 15641, 18782, 10189, 69466, 20827, 8493),
