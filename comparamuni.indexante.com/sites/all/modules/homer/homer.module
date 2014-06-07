@@ -112,17 +112,23 @@ function homer_chart2($arr1, $arr2, $title){
 
 function homer_row(){
 
+  $html = '<div class="jumbotron">
+  <h1>Hello, world!</h1>
+  <p>Es lo que hay</p>
+  <p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p>
+</div>';
+
   $c1 = homer_chart1(
-    array(0, 0, 15641, 18782, 10189, 66686, 19592, 8493),
+    array(0, 0, 15641, 18782, 10189, 69466, 20827, 8493),
     'Gastos de viaje por años sucesivos'
   );
   $c2 = homer_chart2(
     array(0, 0, 15641, 18782),
-    array(10189, 66686, 19592, 8493),
+    array(10189, 69466, 20827, 8493),
     'Gastos de viajes año de gestión Castañeda vs Villarán'
   );
 
-  $html = '<div class="row">';
+  $html.= '<div class="row">';
 
   $html.= '<div class="col-md-6">';
   $html.= drupal_render($c1);
@@ -138,13 +144,13 @@ function homer_row(){
 
 function homer_row1(){
   $c3 = homer_chart1(
-  array(74651, 311973, 57635, 39697, 0, 0, 0, 0),
+  array(74651, 312144, 63880, 39697, 12655, 23334, 65923, 58882),
     'Gastos de consultoria y asesorias por años sucesivos'
   );
 
   $c4 = homer_chart2(
-    array(74651, 311973, 57635, 39697),
-    array(0,0,0,0),
+    array(74651, 312144, 63880, 39697),
+    array(12655, 23334, 65923, 58882),
     'Gastos de consultoria y asesorias año de gestión Castañeda vs Villarán'
   );
 
