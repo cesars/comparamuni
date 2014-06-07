@@ -92,13 +92,15 @@ function homer_chart2($arr1, $arr2, $title){
     '#title' => t('Castañeda'),
     '#data' => $arr1,
     '#suffix' => ' Soles',
+    '#color' => '#ffff00',
   );
 
   $chart['gasto2'] = array(
     '#type' => 'chart_data',
     '#title' => t('Villarán'),
     '#data' => $arr2,
-    '#suffix' => 'Ns',
+    '#suffix' => ' Soles',
+    '#color' => '#00cc00',
   );
   $chart['xaxis'] = array(
     '#type' => 'chart_xaxis',
