@@ -17,7 +17,11 @@ function homer_menu() {
 
 function homer_block_info() {
   $blocks['hpublicidad'] = array(
-    'info' => t('Chart Publicidad por años'),
+    'info' => t('Chart Viaje'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['hpublicidad1'] = array(
+    'info' => t('Chart Asesores'),
     'cache' => DRUPAL_NO_CACHE,
   );
   $blocks['hpublicidad2'] = array(
@@ -32,12 +36,16 @@ function homer_block_view($delta = '') {
 
   switch ($delta) {
     case 'hpublicidad':
-      $block['subject'] = t('Totales de gasto en publicidad por años');
+      $block['subject'] = t('Gastos de viaje 2007 - 2014');
       $block['content'] = homer_row();
       break;
+    case 'hpublicidad1':
+      $block['subject'] = t('Gastos por asesorías y consultorías 2007 - 2014');
+      $block['content'] = homer_row1();
+      break;
     case 'hpublicidad2':
-      $block['subject'] = t('Totales de gasto en publicidad por año de gobierno');
-      $block['content'] = homer_chart2();
+      $block['subject'] = t('Gastos por año y proveedor');
+      $block['content'] = homer_prov();
       break;
   }
   return $block;
@@ -46,19 +54,19 @@ function homer_block_view($delta = '') {
 //Controlador
 //
 
-function homer_chart1(){
+function homer_chart1($arr, $title){
 
   $chart = array(
     '#type' => 'chart',
     '#chart_type' => 'column',
-    '#title' => t(''),
+    '#title' => t($title),
   );
 
   $chart['gasto'] = array(
     '#type' => 'chart_data',
     '#title' => t('Año'),
-    '#data' => array(10, 20, 30, 16, 80, 20, 12, 60),
-    '#suffix' => 'Ns',
+    '#data' => $arr,
+    '#suffix' => ' Soles',
   );
   $chart['xaxis'] = array(
     '#type' => 'chart_xaxis',
@@ -70,26 +78,26 @@ function homer_chart1(){
   return $example;
 }
 
-function homer_chart2(){
+function homer_chart2($arr1, $arr2, $title){
 
   $chart = array(
     '#type' => 'chart',
     '#chart_type' => 'column',
     '#renderto' => 'container',
-    '#title' => t(''),
+    '#title' => t($title),
   );
 
   $chart['gasto1'] = array(
     '#type' => 'chart_data',
     '#title' => t('Castañeda'),
-    '#data' => array(80, 20, 12, 60),
-    '#suffix' => 'Ns',
+    '#data' => $arr1,
+    '#suffix' => ' Soles',
   );
 
   $chart['gasto2'] = array(
     '#type' => 'chart_data',
     '#title' => t('Villarán'),
-    '#data' => array(10, 20, 30, 16),
+    '#data' => $arr2,
     '#suffix' => 'Ns',
   );
   $chart['xaxis'] = array(
@@ -104,19 +112,108 @@ function homer_chart2(){
 
 function homer_row(){
 
-  $c1 = homer_chart1();
-  $c2 = homer_chart2();
+  $c1 = homer_chart1(
+    array(0, 0, 15641, 18782, 10189, 66686, 19592, 8493),
+    'Gastos de viaje por años sucesivos'
+  );
+  $c2 = homer_chart2(
+    array(0, 0, 15641, 18782),
+    array(10189, 66686, 19592, 8493),
+    'Gastos de viajes año de gestión Castañeda vs Villarán'
+  );
 
   $html = '<div class="row">';
+
   $html.= '<div class="col-md-6">';
   $html.= drupal_render($c1);
   $html.= '</div>';
   $html.= '<div class="col-md-6">';
   $html.= drupal_render($c2);
   $html.= '</div>';
+
   $html.= '</div>';
 
  return $html;
+}
+
+function homer_row1(){
+  $c3 = homer_chart1(
+  array(74651, 311973, 57635, 39697, 0, 0, 0, 0),
+    'Gastos de consultoria y asesorias por años sucesivos'
+  );
+
+  $c4 = homer_chart2(
+    array(74651, 311973, 57635, 39697),
+    array(0,0,0,0),
+    'Gastos de consultoria y asesorias año de gestión Castañeda vs Villarán'
+  );
+
+  $html = '<div class="row">';
+
+  $html.= '<div class="col-md-6">';
+  $html.= drupal_render($c3);
+  $html.= '</div>';
+  $html.= '<div class="col-md-6">';
+  $html.= drupal_render($c4);
+  $html.= '</div>';
+
+  $html.= '</div>';
+
+  return $html;
+}
+
+
+function homer_chartprov($arr, $prv, $title=''){
+
+  $chart = array(
+    '#type' => 'chart',
+    '#chart_type' => 'column',
+    '#title' => t($title),
+  );
+
+
+for ($i=0; $i < count($arr); $i++) {
+  $chart['g'.$i] = array(
+    '#type' => 'chart_data',
+    '#title' => t($prv[$i]),
+    '#data' => array($arr[$i]),
+    '#suffix' => 'N. Soles',
+  );
+}
+
+
+  $chart['xaxis'] = array(
+    '#type' => 'chart_xaxis',
+    '#labels' => array('año 2007'),
+  );
+
+  $example['chart'] = $chart;
+
+  return $example;
+}
+
+function homer_prov(){
+  $html = '';
+  $nn = 2007;
+  $arr = array();
+  $prv = array();
+
+  for ($n=0; $n < 4; $n++) {
+    $html.= '<hr/>';
+
+    for ($i=0; $i < 20; $i++) {
+      $arr[$i] = rand(1, 10);
+      $prv[$i] = 'Proveedor '.$i;
+    }
+
+    $title = 'Gastos por proveedor en el año '.$nn;
+    $chart = homer_chartprov($arr, $prv, $title);
+    $html.= drupal_render($chart);
+
+    $nn++;
+  }
+
+  return $html;
 }
 
 function homer_html(){
