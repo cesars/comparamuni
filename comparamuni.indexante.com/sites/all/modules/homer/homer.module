@@ -183,6 +183,7 @@ function homer_row2(){
   $html.= '<div class="col-md-12">';
   $html.= drupal_render($c5);
   //$html.= drupal_render($c6);
+  //*************//
   $html.= '</div>';
 
   $html.= '</div>';
